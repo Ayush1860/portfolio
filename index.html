@@ -19,6 +19,11 @@
     />
   </head>
   <body>
+    <!-- Background: static dot grid + butterfly canvas. Driven by src/background, outside React. -->
+    <div class="bg-canvas" id="bg" aria-hidden="true">
+      <div class="bg-grid"></div>
+      <canvas id="butterflies"></canvas>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

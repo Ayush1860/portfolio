@@ -1,0 +1,38 @@
+/* Background layers: dot grid, butterfly canvas and (from the scroll blur) the scrim. */
+
+.bg-canvas {
+  position: fixed;
+  inset: -32px; /* oversize so blurred edges don't go dark */
+  z-index: 0;
+  background: var(--bg);
+  filter: blur(var(--blur, 0px));
+  will-change: filter;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.bg-canvas.is-ready {
+  opacity: 1;
+}
+
+/* Static dot grid: a CSS background, so fading trails never smear it. */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at center,
+    var(--grid-dot) 0,
+    var(--grid-dot) var(--grid-dot-r, 0.7px),
+    transparent calc(var(--grid-dot-r, 0.7px) + 0.5px)
+  );
+  background-size: var(--grid-pitch, 12px) var(--grid-pitch, 12px);
+}
+
+.bg-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}

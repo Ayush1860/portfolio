@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 @import './tokens.css';
+@import './background.css';
+@import './lab.css';
 
 /* Tailwind reads its palette from the tokens, so utilities can't drift from them. */
 @theme {
@@ -106,5 +108,14 @@
   .container-page {
     width: min(100% - 2 * var(--gutter), var(--content-max));
     margin-inline: auto;
+  }
+
+  /* Frosted glass: the one card material on the site */
+  .glass {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
   }
 }
