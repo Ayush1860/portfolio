@@ -29,6 +29,16 @@
   background-size: var(--grid-pitch, 12px) var(--grid-pitch, 12px);
 }
 
+/* Dark veil that fades in with the blur so text stays readable. */
+.bg-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--bg);
+  opacity: var(--scrim, 0);
+  pointer-events: none;
+}
+
 .bg-canvas canvas {
   position: absolute;
   inset: 0;
