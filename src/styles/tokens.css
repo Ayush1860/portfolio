@@ -54,6 +54,7 @@
   /* Layout: 8 px grid */
   --content-max: 1120px;
   --gutter: 24px;
+  --hero-inset: 16px;
   --section-pad: 80px;
   --radius-card: 24px;
   --radius-pill: 999px;
@@ -71,6 +72,7 @@
 @media (min-width: 768px) {
   :root {
     --gutter: 48px;
+    --hero-inset: 48px;
     --section-pad: 128px;
   }
 }

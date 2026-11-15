@@ -1,10 +1,49 @@
+import { ArrowRight } from 'lucide-react';
+import NewTabHint from '../components/NewTabHint';
+import SectionHeading from '../components/SectionHeading';
+import { links, linksSection, type ProfileLink } from '../content/links';
+
+function LinkRow({ link }: { link: ProfileLink }) {
+  const Icon = link.icon;
+  const isEmail = link.id === 'email';
+  const classes = `link-row${isEmail ? ' link-row-email' : ''}`;
+
+  const body = (
+    <>
+      <Icon className="link-icon" aria-hidden />
+      <span className="link-label">{link.label}</span>
+      <span className="link-handle">{link.handle ?? linksSection.missingLabel}</span>
+      <ArrowRight className="link-arrow" aria-hidden />
+    </>
+  );
+
+  if (!link.url) return <div className={`${classes} link-row-pending`}>{body}</div>;
+
+  // Email opens the mail app; everything else opens a new tab.
+  return isEmail ? (
+    <a className={classes} href={link.url}>
+      {body}
+    </a>
+  ) : (
+    <a className={classes} href={link.url} target="_blank" rel="noopener">
+      {body}
+      <NewTabHint />
+    </a>
+  );
+}
+
 export default function Links() {
   return (
     <section id="links" className="section" aria-labelledby="links-title">
       <div className="container-page">
-        <h2 id="links-title" className="t-section">
-          Let&apos;s build something.
-        </h2>
+        <SectionHeading id="links-title" eyebrow={linksSection.eyebrow} title={linksSection.title} />
+        <ul className="link-list">
+          {links.map((link) => (
+            <li key={link.id}>
+              <LinkRow link={link} />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

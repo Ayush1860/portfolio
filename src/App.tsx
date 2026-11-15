@@ -3,6 +3,8 @@ import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import { startScrollBlur } from './background/useScrollBlur';
 import { prefersReducedMotion, setLenis } from './lib/scroll';
+import Footer from './components/Footer';
+import Nav from './components/Nav';
 import Hero from './sections/Hero';
 import Projects from './sections/Projects';
 import Skills from './sections/Skills';
@@ -28,12 +30,19 @@ export default function App() {
   }, []);
 
   return (
-    <main>
-      <Hero />
-      <Projects />
-      <Skills />
-      <Blogs />
-      <Links />
-    </main>
+    <>
+      <a className="skip-link" href="#projects">
+        Skip to content
+      </a>
+      <Nav />
+      <main>
+        <Hero />
+        <Projects />
+        <Skills />
+        <Blogs />
+        <Links />
+      </main>
+      <Footer />
+    </>
   );
 }
