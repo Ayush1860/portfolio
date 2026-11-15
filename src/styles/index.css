@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Tailwind reads its palette from the tokens, so utilities can't drift from them. */
+@theme {
+  --color-*: initial;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-blue: var(--blue);
+  --color-blue-text: var(--blue-text);
+  --color-red: var(--red);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100svh;
+    font-size: var(--size-body);
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--blue-text);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--blue);
+    color: var(--text);
+  }
+
+  main {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@layer components {
+  /* Type roles */
+  .t-hero {
+    font-size: var(--size-hero);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+  }
+
+  .t-section {
+    font-size: var(--size-section);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .t-card {
+    font-size: var(--size-card);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: var(--size-label);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Layout */
+  .section {
+    min-height: 100svh;
+    padding-block: var(--section-pad);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-margin-top: 80px;
+  }
+
+  .container-page {
+    width: min(100% - 2 * var(--gutter), var(--content-max));
+    margin-inline: auto;
+  }
+}
