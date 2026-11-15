@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import GlassCard from '../components/GlassCard';
+import { RevealGroup } from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import { projects, projectsSection, type Project } from '../content/projects';
 
@@ -42,13 +43,13 @@ export default function Projects() {
           eyebrow={projectsSection.eyebrow}
           title={projectsSection.title}
         />
-        <ul className="project-grid">
+        <RevealGroup as="ul" className="project-grid">
           {projects.map((project) => (
             <li key={project.title}>
               <ProjectCard project={project} />
             </li>
           ))}
-        </ul>
+        </RevealGroup>
       </div>
     </section>
   );

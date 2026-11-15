@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import NewTabHint from '../components/NewTabHint';
+import { RevealGroup, RevealItem } from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import { links, linksSection, type ProfileLink } from '../content/links';
 
@@ -37,13 +38,13 @@ export default function Links() {
     <section id="links" className="section" aria-labelledby="links-title">
       <div className="container-page">
         <SectionHeading id="links-title" eyebrow={linksSection.eyebrow} title={linksSection.title} />
-        <ul className="link-list">
+        <RevealGroup as="ul" className="link-list" stagger={0.06}>
           {links.map((link) => (
-            <li key={link.id}>
+            <RevealItem as="li" key={link.id}>
               <LinkRow link={link} />
-            </li>
+            </RevealItem>
           ))}
-        </ul>
+        </RevealGroup>
       </div>
     </section>
   );

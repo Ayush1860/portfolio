@@ -3,6 +3,7 @@ import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import { startScrollBlur } from './background/useScrollBlur';
 import { prefersReducedMotion, setLenis } from './lib/scroll';
+import { startScrollFlags } from './lib/scrollFlags';
 import Footer from './components/Footer';
 import Nav from './components/Nav';
 import Hero from './sections/Hero';
@@ -21,8 +22,10 @@ export default function App() {
 
     const projects = document.getElementById('projects');
     const stopBlur = projects ? startScrollBlur(lenis, projects) : undefined;
+    const stopFlags = startScrollFlags(); // nav glass and scroll cue
 
     return () => {
+      stopFlags();
       stopBlur?.();
       setLenis(null);
       lenis?.destroy();

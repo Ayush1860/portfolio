@@ -3,6 +3,7 @@
 @import './background.css';
 @import './lab.css';
 @import './components.css';
+@import './motion.css';
 
 /* Tailwind reads its palette from the tokens, so utilities can't drift from them. */
 @theme {

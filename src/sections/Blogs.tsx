@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 import NewTabHint from '../components/NewTabHint';
+import { RevealGroup, RevealItem } from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import { blogsSection, posts, type BlogPost } from '../content/blogs';
 
@@ -52,20 +53,22 @@ export default function Blogs() {
     <section id="blogs" className="section" aria-labelledby="blogs-title">
       <div className="container-page">
         <SectionHeading id="blogs-title" eyebrow={blogsSection.eyebrow} title={blogsSection.title} />
-        <ul className="blog-grid">
+        <RevealGroup as="ul" className="blog-grid">
           {posts.map((post) => (
             <li key={post.title}>
               <BlogCard post={post} />
             </li>
           ))}
-        </ul>
-        <p className="blog-more">
-          <a className="text-link" href={blogsSection.more.url} target="_blank" rel="noopener">
-            {blogsSection.more.label}
-            <ArrowUpRight className="arrow" aria-hidden />
-            <NewTabHint />
-          </a>
-        </p>
+        </RevealGroup>
+        <RevealGroup className="blog-more">
+          <RevealItem as="p">
+            <a className="text-link" href={blogsSection.more.url} target="_blank" rel="noopener">
+              {blogsSection.more.label}
+              <ArrowUpRight className="arrow" aria-hidden />
+              <NewTabHint />
+            </a>
+          </RevealItem>
+        </RevealGroup>
       </div>
     </section>
   );

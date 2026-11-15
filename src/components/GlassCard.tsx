@@ -1,4 +1,6 @@
-import type { ReactNode } from 'react';
+import type { PointerEvent, ReactNode } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { HOVER_SPRING, itemVariants } from '../lib/motion';
 import NewTabHint from './NewTabHint';
 
 interface Props {
@@ -7,17 +9,36 @@ interface Props {
   children: ReactNode;
 }
 
-/** Frosted-glass card. With an href the entire card is a single new-tab link. */
+/** Point the card's glow at the cursor. CSS variables only: no React state. */
+function trackPointer(event: PointerEvent<HTMLElement>) {
+  const el = event.currentTarget;
+  const box = el.getBoundingClientRect();
+  el.style.setProperty('--mx', `${event.clientX - box.left}px`);
+  el.style.setProperty('--my', `${event.clientY - box.top}px`);
+}
+
+/**
+ * Frosted-glass card. With an href the entire card is a single new-tab link.
+ * Inside a RevealGroup it rises into place; on hover it lifts 4 px on a spring
+ * while the border and cursor glow fade in through CSS.
+ */
 export default function GlassCard({ href, className = '', children }: Props) {
-  const classes = `glass card ${className}`;
+  const reduced = useReducedMotion() ?? false;
+  const shared = {
+    className: `glass card ${className}`,
+    variants: itemVariants(reduced, { blur: false }),
+    whileHover: reduced ? undefined : { y: -4 },
+    transition: HOVER_SPRING,
+    onPointerMove: trackPointer,
+  };
 
   if (href) {
     return (
-      <a className={`${classes} card-link`} href={href} target="_blank" rel="noopener">
+      <motion.a {...shared} className={`${shared.className} card-link`} href={href} target="_blank" rel="noopener">
         {children}
         <NewTabHint />
-      </a>
+      </motion.a>
     );
   }
-  return <div className={classes}>{children}</div>;
+  return <motion.div {...shared}>{children}</motion.div>;
 }
