@@ -32,15 +32,7 @@
   --surface-strong: rgba(255, 255, 255, 0.07);
   --border-hover: color-mix(in srgb, var(--blue-text) 40%, transparent);
   --blue-glow: color-mix(in srgb, var(--blue) 70%, transparent);
-  --grid-dot: color-mix(in srgb, var(--blue-text) 13%, transparent);
   --nav-glass: color-mix(in srgb, var(--bg) 55%, transparent);
-
-  /* Butterfly wing ramp, dark to light. Read by src/background/config.ts. */
-  --wing-1: #0a2a66;
-  --wing-2: var(--blue);
-  --wing-3: #3e74d6;
-  --wing-4: #9cc2ff;
-  --wing-spark: #ffffff;
 
   /* Type */
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;

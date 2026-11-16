@@ -1,35 +1,32 @@
-import { ButterflyField } from './ButterflyField';
+import { AnimalEngine } from '../vendor/ascii-animals';
+import { ANIMAL, ANIMAL_TUNING } from './config';
 
-let field: ButterflyField | null = null;
+let engine: AnimalEngine | null = null;
 
 /**
- * Attach the butterfly field to the static canvas in index.html.
- * Starts after first paint so it never competes with the initial render.
+ * Start the background animation on the static canvas in index.html.
+ * It lives outside React: nothing here re-renders, and scroll never touches its loop.
+ * The engine handles resizing, prefers-reduced-motion (one still frame) and pausing itself.
  */
-export function mountBackground(): ButterflyField | null {
-  if (field) return field;
+export function mountBackground(): AnimalEngine | null {
+  if (engine) return engine;
   const wrap = document.getElementById('bg');
-  const canvas = document.getElementById('butterflies');
+  const canvas = document.getElementById('animals');
   if (!wrap || !(canvas instanceof HTMLCanvasElement)) return null;
 
   try {
-    field = new ButterflyField(canvas, wrap);
+    engine = new AnimalEngine(canvas, { animal: ANIMAL, theme: 'dark', tuning: ANIMAL_TUNING });
   } catch {
     return null; // no Canvas 2D: the page still works on the plain background
   }
-  // Dev only: poke the field from the console, e.g. __field.setConfig({ speed: 0 }).
-  if (import.meta.env.DEV) (window as unknown as { __field?: ButterflyField }).__field = field;
+  // Dev only: poke the engine from the console, e.g. __engine.set('speed', 2).
+  if (import.meta.env.DEV) (window as unknown as { __engine?: AnimalEngine }).__engine = engine;
 
-  const begin = () => {
-    field?.start();
-    wrap.classList.add('is-ready'); // CSS fades the canvas in over 600 ms
-  };
-  if ('requestIdleCallback' in window) window.requestIdleCallback(begin, { timeout: 500 });
-  else setTimeout(begin, 50);
-
-  return field;
+  // Let the first frame draw, then CSS fades the canvas in over 600 ms.
+  requestAnimationFrame(() => wrap.classList.add('is-ready'));
+  return engine;
 }
 
-export function getField() {
-  return field;
+export function getEngine() {
+  return engine;
 }
