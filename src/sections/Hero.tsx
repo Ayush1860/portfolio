@@ -55,10 +55,14 @@ export default function Hero() {
             {site.heroLine}
           </motion.p>
           <motion.div className="hero-actions" variants={line}>
-            <a className="btn btn-outline" href={`#${primary.target}`} onClick={go(primary.target)}>
+            <a
+              className="btn btn-glass btn-glass-primary"
+              href={`#${primary.target}`}
+              onClick={go(primary.target)}
+            >
               {primary.label}
             </a>
-            <a className="btn btn-quiet" href={`#${secondary.target}`} onClick={go(secondary.target)}>
+            <a className="btn btn-glass" href={`#${secondary.target}`} onClick={go(secondary.target)}>
               {secondary.label}
             </a>
           </motion.div>

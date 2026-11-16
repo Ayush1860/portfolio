@@ -37,15 +37,17 @@
     cursor: pointer;
   }
 
-  .btn-outline {
-    color: var(--blue-text);
-    border-color: color-mix(in srgb, var(--blue-text) 55%, transparent);
+  /* Glass pills (material in index.css). The primary one has a blue label and rim. */
+  .btn-glass {
+    color: var(--text);
   }
 
-  .btn-quiet {
-    color: var(--text);
-    border-color: var(--border);
-    background: var(--surface);
+  .btn-glass-primary {
+    color: var(--blue-text);
+  }
+
+  .btn-glass-primary::after {
+    --rim-tint: var(--border-hover);
   }
 
   /* Red budget 1/4: the Résumé button fill */
@@ -339,23 +341,24 @@
   .skill-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
   }
 
+  /* Each skill is a small glass tile inside the panel (material in index.css). */
   .skill {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    width: 104px;
-    padding: 12px 4px;
+    gap: 10px;
+    width: 112px;
+    padding: 18px 8px 14px;
     font-size: 13px;
     color: var(--text-2);
   }
 
   .skill-icon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
 
   /* ---------- Blogs ---------- */

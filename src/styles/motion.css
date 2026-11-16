@@ -12,14 +12,13 @@
       border-color var(--dur-fast) var(--ease-out);
   }
 
-  .btn-outline:hover {
-    border-color: var(--blue-text);
-    background: color-mix(in srgb, var(--blue-text) 12%, transparent);
+  /* Glass pills: the rim lights up on hover. */
+  .btn-glass:hover::after {
+    --rim-tint: var(--glass-rim-lit);
   }
 
-  .btn-quiet:hover {
-    border-color: var(--border-hover);
-    background: var(--surface-strong);
+  .btn-glass-primary:hover::after {
+    --rim-tint: color-mix(in srgb, var(--blue-text) 75%, transparent);
   }
 
   .btn-resume:hover {
@@ -85,15 +84,12 @@
 
   /* ---------- Cards ---------- */
 
-  .card {
-    transition: border-color var(--dur-base) var(--ease-out);
-  }
-
   /* French Blue glow that follows the cursor (--mx / --my set on pointermove). */
   .card::before {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--blue-glow), transparent 72%);
     opacity: 0;
     transition: opacity var(--dur-base) var(--ease-out);
@@ -104,9 +100,10 @@
     position: relative; /* content sits above the glow */
   }
 
+  /* On hover the glass rim takes on a French Blue tint and the glow fades in. */
   @media (hover: hover) {
-    .card:hover {
-      border-color: var(--border-hover);
+    .card:hover::after {
+      --rim-tint: var(--border-hover);
     }
 
     .card:hover::before {
@@ -114,8 +111,8 @@
     }
   }
 
-  .card-link:focus-visible {
-    border-color: var(--border-hover);
+  .card-link:focus-visible::after {
+    --rim-tint: var(--border-hover);
   }
 
   /* ---------- Skills ---------- */
@@ -126,6 +123,10 @@
 
   .skill:hover {
     color: var(--blue-text);
+  }
+
+  .skill:hover::after {
+    --rim-tint: var(--border-hover);
   }
 
   .skill:hover .skill-icon {

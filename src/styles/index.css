@@ -112,13 +112,70 @@
     margin-inline: auto;
   }
 
-  /* Frosted glass: the one card material on the site */
+  /*
+   * Glass: the one surface material on the site, in three sizes.
+   *   .glass       panels and cards
+   *   .glass-tile  small tiles nested inside a panel
+   *   .btn-glass   pill buttons
+   * Tint, bevel and shadow are painted once; only the hero card and the nav also
+   * blur what is behind them (see below).
+   */
+  .glass,
+  .glass-tile,
+  .btn-glass {
+    position: relative;
+    border: 0;
+    background: linear-gradient(150deg, var(--glass-tint-hi), var(--glass-tint-lo) 62%);
+    box-shadow: var(--glass-bevel);
+  }
+
   .glass {
-    background: var(--surface);
-    border: 1px solid var(--border);
     border-radius: var(--radius-card);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    backdrop-filter: blur(20px) saturate(140%);
+    box-shadow: var(--glass-bevel), var(--glass-drop);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+  }
+
+  .glass-tile {
+    border-radius: var(--radius-tile);
+    box-shadow: var(--glass-bevel), var(--glass-drop-sm);
+  }
+
+  .btn-glass {
+    box-shadow: var(--glass-bevel), var(--glass-drop-sm);
+  }
+
+  /*
+   * The rim: a thin ring, brightest where the light catches it (top-left, then
+   * bottom-right), cut out of a gradient with a mask. --rim-tint washes over it on
+   * hover and focus. The mask colours are alpha only, not displayed colours.
+   */
+  .glass::after,
+  .glass-tile::after,
+  .btn-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: var(--glass-rim-width);
+    background:
+      linear-gradient(var(--rim-tint), var(--rim-tint)),
+      linear-gradient(
+        135deg,
+        var(--glass-rim-hi),
+        var(--glass-rim-mid) 34%,
+        var(--glass-rim-mid) 64%,
+        var(--glass-rim-lo)
+      );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    pointer-events: none;
+    transition: --rim-tint var(--dur-base) var(--ease-out);
   }
 
   /*
@@ -131,4 +188,11 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
+
+/* Lets the rim tint fade on hover instead of snapping. */
+@property --rim-tint {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
 }
