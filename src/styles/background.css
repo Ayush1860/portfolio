@@ -44,6 +44,7 @@
     linear-gradient(to bottom, var(--line) 1px, transparent 1px);
   background-size: var(--cell-w, 7px) var(--cell-h, 10px);
   opacity: calc(1 - var(--blur-progress, 0));
+  will-change: opacity; /* its own layer: scrolling changes only opacity, never repaints the grid */
 }
 
 /* Dark veil that fades in with the blur so text stays readable. */

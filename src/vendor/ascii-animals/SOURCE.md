@@ -21,5 +21,8 @@ Not copied: the other animals, `react.tsx`, `animals/candidates.ts`, and the dem
 - `animals/index.ts` is rewritten to register only the crane.
 - `engine.ts`: the constructor's default animal is `"cranes"` instead of `"butterflies"`,
   because the butterfly is not vendored.
+- `engine.ts` (performance, marked `[portfolio]` in the file): a `setFrameRate()` cap, used to
+  draw at 30 fps while the canvas sits behind the scroll blur, and the device-pixel-ratio cap
+  lowered from 2 to 1.5.
 
-To update, copy the files again from upstream and re-apply those two changes.
+To update, copy the files again from upstream and re-apply those changes.

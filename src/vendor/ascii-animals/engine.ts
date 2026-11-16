@@ -28,6 +28,8 @@ export class AnimalEngine {
   private resizeObserver: ResizeObserver;
   private intersectionObserver: IntersectionObserver;
   private disposed = false;
+  /** [portfolio] Minimum ms between drawn frames; 0 draws every animation frame. */
+  private minFrameMs = 0;
 
   /** count pins the population; tuning overrides any of the animal's defaults. */
   constructor(
@@ -93,6 +95,11 @@ export class AnimalEngine {
     if (this.reducedMotion.matches) this.drawStill();
   }
 
+  /** [portfolio] Cap the frame rate (e.g. while the canvas is hidden behind a blur); null removes the cap. */
+  setFrameRate(fps: number | null) {
+    this.minFrameMs = fps ? 1000 / fps : 0;
+  }
+
   setTheme(theme: Theme) {
     this.renderer.setTheme(theme);
     if (this.reducedMotion.matches) this.drawStill();
@@ -101,7 +108,7 @@ export class AnimalEngine {
   private resize() {
     const rect = this.canvas.getBoundingClientRect();
     if (rect.width < 1 || rect.height < 1) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5); // [portfolio] upstream caps at 2
     this.renderer.resize(rect.width, rect.height, dpr);
     this.flock.resize(rect.width, rect.height);
     if (this.reducedMotion.matches) this.drawStill();
@@ -115,6 +122,11 @@ export class AnimalEngine {
   }
 
   private frame = (now: number) => {
+    // [portfolio] Frame-rate cap: skip this frame; dt below still spans the skipped ones.
+    if (this.minFrameMs > 0 && now - this.last < this.minFrameMs - 2) {
+      this.raf = requestAnimationFrame(this.frame);
+      return;
+    }
     const dt = Math.min(0.1, (now - this.last) / 1000);
     this.last = now;
     this.acc += dt;

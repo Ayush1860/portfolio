@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getEngine, getGridStrength, resetBackground, setGridStrength, syncGrid } from '../background';
 import { BLUR_MAX, PX_PER_POINT } from '../background/config';
+import { applyBlur } from '../background/useScrollBlur';
 import { SHARED_CONTROLS, type KnobSpec, type Tuning } from '../vendor/ascii-animals';
 
 /** Bare page for tuning the background animation before it goes behind real content. */
@@ -11,11 +12,7 @@ export default function Lab() {
   );
   const [blur, setBlur] = useState(0);
 
-  useEffect(() => {
-    const root = document.documentElement.style;
-    root.setProperty('--blur', `${(blur * PX_PER_POINT).toFixed(2)}px`);
-    root.setProperty('--blur-progress', (blur / BLUR_MAX).toFixed(3));
-  }, [blur]);
+  useEffect(() => applyBlur(blur / BLUR_MAX), [blur]);
 
   if (!engine || !tuning) return null;
 

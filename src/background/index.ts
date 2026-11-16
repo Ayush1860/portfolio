@@ -69,6 +69,11 @@ export function getEngine() {
   return engine;
 }
 
+/** Cap the animation's frame rate, e.g. while it is blurred; null for full speed. */
+export function setBackgroundFrameRate(fps: number | null) {
+  engine?.setFrameRate(fps);
+}
+
 /** Back to the values in config.ts; used by /lab's reset button. */
 export function resetBackground() {
   if (!engine) return;
