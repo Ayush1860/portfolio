@@ -113,60 +113,37 @@
   }
 
   /*
-   * Glass: the one surface material on the site, in three sizes.
-   *   .glass       panels and cards
-   *   .glass-tile  small tiles nested inside a panel
-   *   .btn-glass   pill buttons
-   * Tint, bevel and shadow are painted once; only the hero card and the nav also
-   * blur what is behind them (see below).
+   * Glass: the one surface material on the site. A nearly clear pane (--glass-frost)
+   * whose edges bend what is behind it. --liquid-filter is the refraction, set per
+   * element by src/lib/liquidGlass.ts where the browser supports it (Chromium);
+   * elsewhere the pane is simply lightly frosted.
    */
-  .glass,
-  .glass-tile,
-  .btn-glass {
-    position: relative;
-    border: 0;
-    background: linear-gradient(150deg, var(--glass-tint-hi), var(--glass-tint-lo) 62%);
-    box-shadow: var(--glass-bevel);
-  }
-
   .glass {
+    position: relative;
     border-radius: var(--radius-card);
+    background: var(--glass-fill, var(--surface));
     box-shadow: var(--glass-bevel), var(--glass-drop);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
-    backdrop-filter: blur(var(--glass-blur)) saturate(170%);
-  }
-
-  .glass-tile {
-    border-radius: var(--radius-tile);
-    box-shadow: var(--glass-bevel), var(--glass-drop-sm);
-  }
-
-  .btn-glass {
-    box-shadow: var(--glass-bevel), var(--glass-drop-sm);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    backdrop-filter: var(--liquid-filter,) blur(var(--glass-blur)) saturate(150%);
   }
 
   /*
-   * The rim: a thin ring, brightest where the light catches it (top-left, then
-   * bottom-right), cut out of a gradient with a mask. --rim-tint washes over it on
-   * hover and focus. The mask colours are alpha only, not displayed colours.
+   * The rim: a one-pixel ring, brightest where light catches it (top-left, then
+   * bottom-right), cut out of a gradient with a mask. The mask colour is alpha only.
    */
-  .glass::after,
-  .glass-tile::after,
-  .btn-glass::after {
+  .glass::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    padding: var(--glass-rim-width);
-    background:
-      linear-gradient(var(--rim-tint), var(--rim-tint)),
-      linear-gradient(
-        135deg,
-        var(--glass-rim-hi),
-        var(--glass-rim-mid) 34%,
-        var(--glass-rim-mid) 64%,
-        var(--glass-rim-lo)
-      );
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      var(--glass-rim-hi),
+      var(--glass-rim-mid) 30%,
+      var(--glass-rim-mid) 68%,
+      var(--glass-rim-lo)
+    );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
@@ -175,24 +152,25 @@
       linear-gradient(#000 0 0) content-box exclude,
       linear-gradient(#000 0 0);
     pointer-events: none;
-    transition: --rim-tint var(--dur-base) var(--ease-out);
   }
 
   /*
    * Below the hero the background is already blurred and dimmed by the scroll blur,
-   * so a second backdrop blur there adds little you can see. It is costly, though:
-   * the canvas behind animates, so every card re-blurs it on every frame. The hero
-   * card and the nav keep theirs (they sit over the sharp animation).
+   * so there is nothing sharp for a pane to bend or frost: measured, refraction on
+   * those panels was invisible and cost about half the frame rate while scrolling.
+   * They keep the tint, bevel and lit rim, and skip the backdrop pass entirely.
    */
   .section .glass {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
-}
 
-/* Lets the rim tint fade on hover instead of snapping. */
-@property --rim-tint {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: transparent;
+  /* People who ask for less transparency get a nearly solid pane. */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      --glass-fill: color-mix(in srgb, var(--bg) 92%, var(--text));
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
 }

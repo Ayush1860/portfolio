@@ -19,11 +19,9 @@ export function prefersReducedMotion() {
 export function scrollToId(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
-  // Sections carry scroll-margin-top: 80px (clears the nav). Lenis and scrollIntoView both
-  // honour it, so no extra offset here: adding one doubled the gap to 160px.
   if (lenis) {
-    lenis.scrollTo(el, { duration: 1.2 });
+    lenis.scrollTo(el, { duration: 1.2 }); // Lenis honours the sections' scroll-margin-top
   } else {
-    el.scrollIntoView({ block: 'start' });
+    el.scrollIntoView({ block: 'start' }); // sections carry scroll-margin-top: 80px
   }
 }

@@ -15,7 +15,8 @@
   padding: 24px;
   display: grid;
   gap: 16px;
-  border: 1px solid var(--border); /* the glass rim would scroll away inside a scrolling panel */
+  --glass-fill: var(--glass-dim-strong);
+  border: 1px solid var(--border); /* the rim ring would scroll away inside a scrolling panel */
 }
 
 .lab-panel::after {

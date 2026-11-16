@@ -37,7 +37,7 @@ export default function Skills() {
                 <h3 className="t-label text-text-3">{group.label}</h3>
                 <ul className="skill-list">
                   {group.skills.map(({ name, icon: Icon }) => (
-                    <motion.li key={name} className="skill glass-tile" variants={icon}>
+                    <motion.li key={name} className="skill" variants={icon}>
                       <Icon className="skill-icon" aria-hidden />
                       <span>{name}</span>
                     </motion.li>

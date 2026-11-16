@@ -36,26 +36,19 @@
   --grid-line: #ffffff; /* background cell grid; drawn at about 5.5% strength */
 
   /*
-   * Glass material (liquid-glass look): a light tint that fades across the pane, a
-   * bright rim that catches the light top-left and bottom-right, an inner bevel that
-   * gives the glass thickness, and a soft drop shadow. Used by .glass, .glass-tile
-   * and .btn-glass in index.css.
+   * Glass (liquid-glass look, see .glass in index.css). The pane is nearly clear:
+   * --glass-frost sets how much it blurs what is behind it (0 clear, 1 fully frosted).
+   * The edges refract the background (src/lib/liquidGlass.ts) and carry a thin lit rim.
    */
-  --glass-tint-hi: rgba(255, 255, 255, 0.11);
-  --glass-tint-lo: rgba(255, 255, 255, 0.03);
-  --glass-rim-hi: rgba(255, 255, 255, 0.72);
-  --glass-rim-mid: rgba(255, 255, 255, 0.1);
-  --glass-rim-lo: rgba(255, 255, 255, 0.34);
-  --glass-rim-lit: rgba(255, 255, 255, 0.3); /* extra light on the rim when a pill is hovered */
-  --glass-rim-width: 1.5px;
-  --glass-bevel:
-    inset 0 1px 1px rgba(255, 255, 255, 0.22),
-    inset 0 -1px 1px rgba(255, 255, 255, 0.06),
-    inset 0 0 18px rgba(255, 255, 255, 0.07),
-    inset 0 -24px 40px -32px rgba(0, 0, 0, 0.4);
-  --glass-drop: 0 32px 64px -28px rgba(0, 0, 0, 0.75);
-  --glass-drop-sm: 0 12px 24px -14px rgba(0, 0, 0, 0.6);
-  --glass-blur: 28px;
+  --glass-frost: 0.1;
+  --glass-blur: calc(20px * var(--glass-frost));
+  --glass-dim: color-mix(in srgb, var(--bg) 52%, transparent); /* keeps text readable over the sharp animation */
+  --glass-dim-strong: color-mix(in srgb, var(--bg) 72%, transparent); /* nav: page content slides underneath */
+  --glass-rim-hi: rgba(255, 255, 255, 0.5);
+  --glass-rim-mid: rgba(255, 255, 255, 0.07);
+  --glass-rim-lo: rgba(255, 255, 255, 0.24);
+  --glass-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 22px rgba(255, 255, 255, 0.035);
+  --glass-drop: 0 28px 56px -28px rgba(0, 0, 0, 0.7);
 
   /* Type */
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -71,8 +64,7 @@
   --gutter: 24px;
   --hero-inset: 16px;
   --section-pad: 80px;
-  --radius-card: 28px;
-  --radius-tile: 18px; /* small glass tiles nested inside a panel */
+  --radius-card: 24px;
   --radius-pill: 999px;
   --nav-h: 64px;
 

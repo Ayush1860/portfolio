@@ -1,10 +1,13 @@
 import { useEffect, useRef, type MouseEvent } from 'react';
 import { site } from '../content/site';
 import { scrollToId } from '../lib/scroll';
+import { useLiquidGlass } from '../lib/useLiquidGlass';
 import ResumeButton from './ResumeButton';
 
 export default function Nav() {
   const linksRef = useRef<HTMLElement>(null);
+  // Page content bends as it slides under the bar's bottom edge.
+  const glass = useLiquidGlass<HTMLDivElement>({ edges: 'bottom', bezel: 22, strength: 22 });
 
   // Mark the link of the section crossing the middle of the viewport.
   // Written straight to the DOM (aria-current), so scrolling never re-renders React.
@@ -39,6 +42,7 @@ export default function Nav() {
 
   return (
     <header className="nav">
+      <div ref={glass} className="glass nav-glass" aria-hidden="true" />
       <div className="container-page nav-inner">
         <a className="nav-name" href="#hero" onClick={go('hero')}>
           {site.name}

@@ -12,13 +12,14 @@
       border-color var(--dur-fast) var(--ease-out);
   }
 
-  /* Glass pills: the rim lights up on hover. */
-  .btn-glass:hover::after {
-    --rim-tint: var(--glass-rim-lit);
+  .btn-outline:hover {
+    border-color: var(--blue-text);
+    background: color-mix(in srgb, var(--blue-text) 12%, transparent);
   }
 
-  .btn-glass-primary:hover::after {
-    --rim-tint: color-mix(in srgb, var(--blue-text) 75%, transparent);
+  .btn-quiet:hover {
+    border-color: var(--border-hover);
+    background: var(--surface-strong);
   }
 
   .btn-resume:hover {
@@ -41,19 +42,26 @@
   /* ---------- Nav ---------- */
 
   /* Glass fades in after 40 px of scroll (data-past-40 is set by scrollFlags.ts). */
-  .nav::before {
-    content: '';
+  .nav .nav-glass {
+    --glass-fill: var(--glass-dim-strong);
     position: absolute;
     inset: 0;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    border-radius: 0;
     opacity: 0;
     transition: opacity var(--dur-base) var(--ease-out);
   }
 
-  html[data-past-40] .nav::before {
+  /* A bar, not a pane: one lit line along the bottom edge instead of a ring. */
+  .nav .nav-glass::after {
+    inset: auto 0 0;
+    height: 1px;
+    padding: 0;
+    background: linear-gradient(90deg, var(--glass-rim-mid), var(--glass-rim-lo), var(--glass-rim-mid));
+    -webkit-mask: none;
+    mask: none;
+  }
+
+  html[data-past-40] .nav-glass {
     opacity: 1;
   }
 
@@ -84,12 +92,15 @@
 
   /* ---------- Cards ---------- */
 
+  .card {
+    transition: box-shadow var(--dur-base) var(--ease-out);
+  }
+
   /* French Blue glow that follows the cursor (--mx / --my set on pointermove). */
   .card::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: inherit;
     background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--blue-glow), transparent 72%);
     opacity: 0;
     transition: opacity var(--dur-base) var(--ease-out);
@@ -100,10 +111,9 @@
     position: relative; /* content sits above the glow */
   }
 
-  /* On hover the glass rim takes on a French Blue tint and the glow fades in. */
   @media (hover: hover) {
-    .card:hover::after {
-      --rim-tint: var(--border-hover);
+    .card:hover {
+      box-shadow: inset 0 0 0 1px var(--border-hover), var(--glass-bevel), var(--glass-drop);
     }
 
     .card:hover::before {
@@ -111,8 +121,8 @@
     }
   }
 
-  .card-link:focus-visible::after {
-    --rim-tint: var(--border-hover);
+  .card-link:focus-visible {
+    box-shadow: inset 0 0 0 1px var(--border-hover), var(--glass-bevel), var(--glass-drop);
   }
 
   /* ---------- Skills ---------- */
@@ -123,10 +133,6 @@
 
   .skill:hover {
     color: var(--blue-text);
-  }
-
-  .skill:hover::after {
-    --rim-tint: var(--border-hover);
   }
 
   .skill:hover .skill-icon {

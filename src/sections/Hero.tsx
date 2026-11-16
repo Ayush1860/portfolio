@@ -5,12 +5,14 @@ import { useParallaxEnabled } from '../components/Parallax';
 import { site } from '../content/site';
 import { DUR, EASE_OUT, PARALLAX, REDUCED_FADE, itemVariants } from '../lib/motion';
 import { scrollToId } from '../lib/scroll';
+import { useLiquidGlass } from '../lib/useLiquidGlass';
 
 const CANVAS_FADE = 0.6; // the background fades in first (background.css), then the card
 
 export default function Hero() {
   const reduced = useReducedMotion() ?? false;
   const parallax = useParallaxEnabled();
+  const glass = useLiquidGlass<HTMLDivElement>();
   const { primary, secondary } = site.cta;
 
   // Parallax: the card is the nearest layer, so it rises a little faster than the page.
@@ -44,7 +46,7 @@ export default function Hero() {
   return (
     <section id="hero" className="hero" aria-labelledby="hero-title">
       <motion.div className="hero-anchor" style={parallax ? { y: lift } : undefined}>
-        <motion.div className="hero-card glass" variants={card} initial="hidden" animate="shown">
+        <motion.div ref={glass} className="hero-card glass" variants={card} initial="hidden" animate="shown">
           <motion.p className="t-label text-text-2" variants={line}>
             {site.label}
           </motion.p>
@@ -55,14 +57,10 @@ export default function Hero() {
             {site.heroLine}
           </motion.p>
           <motion.div className="hero-actions" variants={line}>
-            <a
-              className="btn btn-glass btn-glass-primary"
-              href={`#${primary.target}`}
-              onClick={go(primary.target)}
-            >
+            <a className="btn btn-outline" href={`#${primary.target}`} onClick={go(primary.target)}>
               {primary.label}
             </a>
-            <a className="btn btn-glass" href={`#${secondary.target}`} onClick={go(secondary.target)}>
+            <a className="btn btn-quiet" href={`#${secondary.target}`} onClick={go(secondary.target)}>
               {secondary.label}
             </a>
           </motion.div>
