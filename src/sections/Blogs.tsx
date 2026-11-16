@@ -1,9 +1,11 @@
 import { ArrowUpRight } from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 import NewTabHint from '../components/NewTabHint';
+import Parallax from '../components/Parallax';
 import { RevealGroup, RevealItem } from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import { blogsSection, posts, type BlogPost } from '../content/blogs';
+import { PARALLAX } from '../lib/motion';
 
 const dateFormat = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -53,13 +55,15 @@ export default function Blogs() {
     <section id="blogs" className="section" aria-labelledby="blogs-title">
       <div className="container-page">
         <SectionHeading id="blogs-title" eyebrow={blogsSection.eyebrow} title={blogsSection.title} />
-        <RevealGroup as="ul" className="blog-grid">
-          {posts.map((post) => (
-            <li key={post.title}>
-              <BlogCard post={post} />
-            </li>
-          ))}
-        </RevealGroup>
+        <Parallax shift={PARALLAX.content}>
+          <RevealGroup as="ul" className="blog-grid">
+            {posts.map((post) => (
+              <li key={post.title}>
+                <BlogCard post={post} />
+              </li>
+            ))}
+          </RevealGroup>
+        </Parallax>
         <RevealGroup className="blog-more">
           <RevealItem as="p">
             <a className="text-link" href={blogsSection.more.url} target="_blank" rel="noopener">

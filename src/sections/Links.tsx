@@ -1,8 +1,10 @@
 import { ArrowRight } from 'lucide-react';
 import NewTabHint from '../components/NewTabHint';
+import Parallax from '../components/Parallax';
 import { RevealGroup, RevealItem } from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import { links, linksSection, type ProfileLink } from '../content/links';
+import { PARALLAX } from '../lib/motion';
 
 function LinkRow({ link }: { link: ProfileLink }) {
   const Icon = link.icon;
@@ -38,13 +40,15 @@ export default function Links() {
     <section id="links" className="section" aria-labelledby="links-title">
       <div className="container-page">
         <SectionHeading id="links-title" eyebrow={linksSection.eyebrow} title={linksSection.title} />
-        <RevealGroup as="ul" className="link-list" stagger={0.06}>
-          {links.map((link) => (
-            <RevealItem as="li" key={link.id}>
-              <LinkRow link={link} />
-            </RevealItem>
-          ))}
-        </RevealGroup>
+        <Parallax shift={PARALLAX.content}>
+          <RevealGroup as="ul" className="link-list" stagger={0.06}>
+            {links.map((link) => (
+              <RevealItem as="li" key={link.id}>
+                <LinkRow link={link} />
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        </Parallax>
       </div>
     </section>
   );

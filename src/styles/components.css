@@ -168,11 +168,15 @@
     min-height: 560px;
   }
 
-  .hero-card {
+  /* Positions the card; the scroll parallax moves this wrapper, the load animation the card. */
+  .hero-anchor {
     position: absolute;
     left: var(--hero-inset);
     bottom: var(--hero-inset);
     width: min(560px, calc(100% - 2 * var(--hero-inset)));
+  }
+
+  .hero-card {
     padding: 24px;
     display: grid;
     gap: 20px;

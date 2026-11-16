@@ -6,6 +6,17 @@ export const DUR = { fast: 0.16, base: 0.32, slow: 0.7 }; // --dur-fast / --dur-
 export const HOVER_SPRING = { type: 'spring', stiffness: 300, damping: 24 } as const;
 export const REDUCED_FADE = 0.2; // reduced motion: a short fade, no movement
 
+/**
+ * Scroll parallax: three depths in front of the background canvas. The canvas is
+ * fixed, so it is the farthest layer; headings move a little slower than the page,
+ * content a little faster, and the hero card fastest.
+ */
+export const PARALLAX = {
+  hero: 0.22, // the hero card rises this much faster than the page as you scroll away
+  heading: -28, // section headings: px of drift, slower than the page
+  content: 28, // cards, panels and rows: px of drift, faster than the page
+};
+
 interface ItemOptions {
   blur?: boolean; // glass elements skip this: a filter would cut off their backdrop blur
   distance?: number;
