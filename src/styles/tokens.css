@@ -33,6 +33,7 @@
   --border-hover: color-mix(in srgb, var(--blue-text) 40%, transparent);
   --blue-glow: color-mix(in srgb, var(--blue) 70%, transparent);
   --nav-glass: color-mix(in srgb, var(--bg) 55%, transparent);
+  --grid-line: #ffffff; /* background cell grid; drawn at about 5.5% strength */
 
   /* Type */
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;

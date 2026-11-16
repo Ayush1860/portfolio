@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { getEngine } from '../background';
-import { ANIMAL, ANIMAL_TUNING, BLUR_MAX, PX_PER_POINT } from '../background/config';
+import { getEngine, getGridStrength, resetBackground, setGridStrength, syncGrid } from '../background';
+import { BLUR_MAX, PX_PER_POINT } from '../background/config';
 import { SHARED_CONTROLS, type KnobSpec, type Tuning } from '../vendor/ascii-animals';
 
 /** Bare page for tuning the background animation before it goes behind real content. */
 export default function Lab() {
   const engine = getEngine();
-  const [tuning, setTuning] = useState<Tuning | null>(() => (engine ? { ...engine.tuning } : null));
+  const [tuning, setTuning] = useState<Tuning | null>(() =>
+    engine ? { ...engine.tuning, grid: getGridStrength() } : null,
+  );
   const [blur, setBlur] = useState(0);
 
   useEffect(() => {
@@ -24,14 +26,19 @@ export default function Lab() {
     ['Look', SHARED_CONTROLS.look],
   ];
 
+  // The grid is drawn by CSS, not the engine (see background/index.ts), so its knob goes there.
+  const snapshot = (): Tuning => ({ ...engine.tuning, grid: getGridStrength() });
+
   const change = (key: string, value: number | boolean) => {
-    engine.set(key, value);
-    setTuning({ ...engine.tuning });
+    if (key === 'grid') setGridStrength(Number(value));
+    else engine.set(key, value);
+    syncGrid(); // ASCII detail changes the cell size
+    setTuning(snapshot());
   };
 
   const reset = () => {
-    engine.setAnimal(ANIMAL, ANIMAL_TUNING);
-    setTuning({ ...engine.tuning });
+    resetBackground();
+    setTuning(snapshot());
     setBlur(0);
   };
 
