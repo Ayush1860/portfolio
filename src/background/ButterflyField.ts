@@ -14,7 +14,7 @@ import {
   type FieldConfig,
   type Palette,
 } from './config';
-import { FRAME_COUNT, VARIANT_COUNT, buildSprites, type SpriteSet } from './sprites';
+import { FRAME_COUNT, VARIANT_COUNT, buildSprites, speciesFlapRate, type SpriteSet } from './sprites';
 
 interface Butterfly {
   x: number; // centre, CSS px
@@ -42,6 +42,7 @@ const toRad = (deg: number) => (deg * Math.PI) / 180;
 
 /** Keys whose change needs new sprites and a fresh flock. */
 const REBUILD_KEYS: (keyof FieldConfig)[] = [
+  'species',
   'size',
   'cellSize',
   'asciiDetail',
@@ -228,7 +229,7 @@ export class ButterflyField {
       offset,
       heading: toRad(cfg.direction) + offset,
       phase: rand(0, TAU),
-      flapHz: BASE_FLAP_HZ * rand(0.85, 1.2),
+      flapHz: BASE_FLAP_HZ * speciesFlapRate(cfg.species) * rand(0.85, 1.2),
       gliding: false,
       glideTimer: rand(0.5, 6),
       wobble: rand(0, TAU),

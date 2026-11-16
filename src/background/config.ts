@@ -1,5 +1,9 @@
+/** Which animal the field draws. Each has its own procedural shape in sprites.ts. */
+export type Species = 'butterfly' | 'crane';
+
 /** Tunable values for the butterfly field. Adjust live on /lab, then copy them here. */
 export interface FieldConfig {
+  species: Species;
   /* Movement */
   density: number; // multiplier on butterflies per screen area
   speed: number; // multiplier on drift speed
@@ -26,6 +30,7 @@ export interface FieldConfig {
 }
 
 export const DEFAULT_CONFIG: FieldConfig = {
+  species: 'crane', // this branch previews the crane; 'butterfly' restores the original
   density: 1.05,
   speed: 1.05,
   size: 1.25,

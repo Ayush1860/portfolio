@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react';
 import { getField } from '../background';
-import { BLUR_MAX, DEFAULT_CONFIG, PX_PER_POINT, type FieldConfig } from '../background/config';
+import {
+  BLUR_MAX,
+  DEFAULT_CONFIG,
+  PX_PER_POINT,
+  type FieldConfig,
+  type Species,
+} from '../background/config';
+
+const SPECIES: { value: Species; label: string }[] = [
+  { value: 'butterfly', label: 'Butterfly' },
+  { value: 'crane', label: 'Crane' },
+];
+
+type NumericKey = {
+  [K in keyof FieldConfig]: FieldConfig[K] extends number ? K : never;
+}[keyof FieldConfig];
 
 interface Slider {
-  key: keyof FieldConfig;
+  key: NumericKey;
   label: string;
   min: number;
   max: number;
@@ -31,9 +46,14 @@ export default function Lab() {
   const [cfg, setCfg] = useState<FieldConfig>({ ...DEFAULT_CONFIG });
   const [blur, setBlur] = useState(0);
 
-  const change = (key: keyof FieldConfig, value: number) => {
+  const change = (key: NumericKey, value: number) => {
     setCfg((current) => ({ ...current, [key]: value }));
     getField()?.setConfig({ [key]: value });
+  };
+
+  const changeSpecies = (species: Species) => {
+    setCfg((current) => ({ ...current, species }));
+    getField()?.setConfig({ species });
   };
 
   useEffect(() => {
@@ -56,6 +76,20 @@ export default function Lab() {
           <a className="t-label text-blue-text" href="/">
             Back to site
           </a>
+        </div>
+
+        <div className="lab-species" role="group" aria-label="Animal">
+          {SPECIES.map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              className="lab-reset t-label"
+              aria-pressed={cfg.species === value}
+              onClick={() => changeSpecies(value)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         {SLIDERS.map(({ key, label, min, max, step }) => (

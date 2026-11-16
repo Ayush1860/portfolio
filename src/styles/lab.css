@@ -41,3 +41,14 @@
 .lab-reset:hover {
   border-color: var(--border-hover);
 }
+
+.lab-species {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.lab-reset[aria-pressed='true'] {
+  border-color: var(--blue-text);
+  color: var(--blue-text);
+}

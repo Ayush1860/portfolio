@@ -1,4 +1,4 @@
-import type { FieldConfig, Palette, RGB } from './config';
+import type { FieldConfig, Palette, RGB, Species } from './config';
 
 /**
  * Procedural butterfly sprites.
@@ -16,7 +16,6 @@ export const VARIANT_COUNT = 3; // shimmer variants per frame
 const LEVEL_SCALES = [1, 0.66, 0.46, 0.3]; // depth sizes, nearest first
 const EXTENT = 1.3; // half-width of the sampled square, in wing-space units
 const ROOT_V = 0.02; // where the wings attach along the body
-const CENTRE_SHIFT = 0.13; // moves the shape back so it sits centred in the sprite
 const SUBSAMPLES = 3;
 const MIN_COVERAGE = 3; // of SUBSAMPLES², to fill a cell
 
@@ -59,8 +58,8 @@ function distToSegment(px: number, py: number, ax: number, ay: number, bx: numbe
   return Math.hypot(px - (ax + dx * t), py - (ay + dy * t));
 }
 
-/** Brightness 0..1 at a point in wing space, or -1 if the point is empty. */
-function toneAt(u: number, v: number, open: number): number {
+/** Butterfly: brightness 0..1 at a point in wing space, or -1 if the point is empty. */
+function butterflyTone(u: number, v: number, open: number): number {
   const side = Math.abs(u);
 
   // Body: a narrow capsule, slightly brighter at the head.
@@ -87,8 +86,76 @@ function toneAt(u: number, v: number, open: number): number {
   return Math.min(1, Math.max(0, tone));
 }
 
+/* Crane, seen from above in flight: neck stretched forwards, legs trailing, long wings. */
+const CRANE_SPAN = 0.9; // where the solid wing ends and the finger feathers begin
+const CRANE_FINGERS = [-1.5, -0.5, 0.5, 1.5]; // primaries, splayed fore and aft at the tip
+const CRANE_FINGER_LENGTH = 0.3;
+
+function craneTone(u: number, v: number, open: number): number {
+  const side = Math.abs(u);
+
+  // Beak, head and the long neck.
+  if (v > 0.8 && v < 0.98 && side < 0.012 + 0.03 * (1 - (v - 0.8) / 0.18)) return 0.62;
+  if (Math.hypot(side, (v - 0.76) * 0.8) < 0.082) return 1;
+  if (v > 0.2 && v <= 0.76 && side < 0.036) return 0.82;
+
+  // Body, tail fan, then the legs held straight out behind.
+  if ((side / 0.105) ** 2 + (v / 0.28) ** 2 < 1) return 0.9;
+  if (v < -0.2 && v > -0.42 && side < 0.05 + (-0.2 - v) * 0.3) return 0.6;
+  if (v <= -0.4 && v > -0.88 && side < 0.03) return 0.42;
+
+  // Wings. A beat foreshortens the span and sweeps the tips back.
+  const x = side / open;
+  const sweep = 0.13 + 0.32 * (1 - open);
+  const centreAt = (s: number) => 0.04 + 0.1 * s - sweep * s * s;
+
+  if (x <= CRANE_SPAN) {
+    const half = 0.18 * (1 - 0.5 * Math.pow(x / CRANE_SPAN, 1.5));
+    const d = (v - centreAt(x)) / half; // -1 trailing edge .. 1 leading edge
+    if (d < -1 || d > 1) return -1;
+    let tone = 0.82 - 0.28 * (x / CRANE_SPAN); // paler toward the body
+    tone *= 0.9 + 0.1 * Math.cos(x * 24); // feather bands
+    if (d < -0.2) tone *= 0.72; // darker flight feathers along the trailing edge
+    return tone;
+  }
+
+  // Dark finger feathers fanning out past the wingtip.
+  const rootV = centreAt(CRANE_SPAN);
+  const tipV = centreAt(CRANE_SPAN + CRANE_FINGER_LENGTH);
+  for (const k of CRANE_FINGERS) {
+    const d = distToSegment(
+      x,
+      v,
+      CRANE_SPAN - 0.02,
+      rootV + k * 0.05,
+      CRANE_SPAN + CRANE_FINGER_LENGTH * (1 - 0.12 * Math.abs(k)),
+      tipV + k * 0.13,
+    );
+    if (d < 0.03) return 0.4;
+  }
+  return -1;
+}
+
+interface Shape {
+  tone: (u: number, v: number, open: number) => number;
+  folded: number; // wing width on the last flap frame, as a share of fully open
+  centreShift: number; // moves the shape back so it sits centred in the sprite
+  detail: number; // multiplier on cells per side; thin shapes need finer cells
+  flapRate: number; // multiplier on wing-beat frequency
+}
+
+const SHAPES: Record<Species, Shape> = {
+  butterfly: { tone: butterflyTone, folded: 0.26, centreShift: 0.13, detail: 1, flapRate: 1 },
+  crane: { tone: craneTone, folded: 0.5, centreShift: -0.05, detail: 1.3, flapRate: 0.5 },
+};
+
+/** How fast this species beats its wings, relative to the butterfly. */
+export function speciesFlapRate(species: Species) {
+  return SHAPES[species].flapRate;
+}
+
 /** Tone per cell for one flap frame, with the shape turned to face `direction`. */
-function rasterise(cells: number, open: number, direction: number): Float32Array {
+function rasterise(shape: Shape, cells: number, open: number, direction: number): Float32Array {
   const out = new Float32Array(cells * cells).fill(-1);
   const cos = Math.cos(direction);
   const sin = Math.sin(direction);
@@ -105,7 +172,7 @@ function rasterise(cells: number, open: number, direction: number): Float32Array
           const py = -EXTENT + (row + (sy + 0.5) / SUBSAMPLES) * step;
           const forwards = px * cos + py * sin;
           const sideways = -px * sin + py * cos;
-          const tone = toneAt(sideways, forwards + CENTRE_SHIFT, open);
+          const tone = shape.tone(sideways, forwards + shape.centreShift, open);
           if (tone >= 0) {
             hits++;
             sum += tone;
@@ -163,13 +230,14 @@ function paint(
   return canvas;
 }
 
-/** Wing width for a flap frame: 1 when open, about 0.26 when closed (never a bare line). */
-function openness(frame: number) {
-  return 1 - 0.74 * Math.pow(frame / (FRAME_COUNT - 1), 1.4);
+/** Wing width for a flap frame: 1 when open, `folded` on the last frame (never a bare line). */
+function openness(frame: number, folded: number) {
+  return 1 - (1 - folded) * Math.pow(frame / (FRAME_COUNT - 1), 1.4);
 }
 
 export function buildSprites(cfg: FieldConfig, palette: Palette, dpr: number): SpriteSet {
-  const cells = Math.max(10, Math.round(20 * cfg.asciiDetail));
+  const shape = SHAPES[cfg.species];
+  const cells = Math.max(10, Math.round(20 * cfg.asciiDetail * shape.detail));
   // Keep the on-screen size steady as detail changes: more cells means smaller cells.
   const basePitch = (cfg.cellSize * cfg.size * 26) / cells;
   const direction = rad(cfg.direction);
@@ -177,7 +245,7 @@ export function buildSprites(cfg: FieldConfig, palette: Palette, dpr: number): S
   const tones: Float32Array[] = [];
   const filled: Int16Array[] = [];
   for (let frame = 0; frame < FRAME_COUNT; frame++) {
-    const t = rasterise(cells, openness(frame), direction);
+    const t = rasterise(shape, cells, openness(frame, shape.folded), direction);
     const coords: number[] = [];
     for (let i = 0; i < t.length; i++) if (t[i] >= 0) coords.push(i % cells, Math.floor(i / cells));
     tones.push(t);
