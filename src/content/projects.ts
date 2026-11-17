@@ -44,10 +44,10 @@ export const projects: Project[] = [
     url: 'https://github.com/Ayush1860/Commodity-PP',
   },
   {
-    category: 'Platform',
-    title: 'Sahayak Setu',
-    outcome: 'One-line outcome to come.', // TODO: outcome
-    tech: ['TODO'], // TODO: tags
-    url: 'https://github.com/Ayush1860/Sahayak-Setu',
+    category: 'Web',
+    title: 'This portfolio',
+    outcome: 'A live ASCII crane field behind liquid-glass panels, with scroll-linked blur and parallax.',
+    tech: ['React', 'TypeScript', 'Vite', 'Canvas 2D'],
+    url: 'https://github.com/Ayush1860/portfolio',
   },
 ];
