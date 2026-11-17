@@ -7,8 +7,10 @@
     <title>Ayush Suryawanshi — AI/ML Engineer</title>
     <meta
       name="description"
-      content="Ayush Suryawanshi is an AI/ML engineer and M.Tech student at MANIT Bhopal building computer-vision and generative-AI systems. Projects, skills and writing."
+      content="Ayush Suryawanshi, AI/ML engineer and M.Tech researcher at MANIT Bhopal, builds generative-AI systems: secure RAG, LLM agents and computer vision."
     />
+    <!-- %SITE_URL% is replaced at build time from SITE_URL in vite.config.ts. -->
+    <link rel="canonical" href="%SITE_URL%/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
       rel="preload"
@@ -17,6 +19,51 @@
       type="font/woff2"
       crossorigin
     />
+
+    <!-- Sharing: Open Graph and Twitter / X cards -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ayush Suryawanshi" />
+    <meta property="og:title" content="Ayush Suryawanshi — AI/ML Engineer" />
+    <meta
+      property="og:description"
+      content="AI/ML engineer and M.Tech researcher building generative-AI systems: secure RAG, LLM agents and computer vision."
+    />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ayush Suryawanshi — AI/ML Engineer, over a field of ASCII cranes" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ayush Suryawanshi — AI/ML Engineer" />
+    <meta
+      name="twitter:description"
+      content="AI/ML engineer and M.Tech researcher building generative-AI systems: secure RAG, LLM agents and computer vision."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
+
+    <!-- Search engines: who this page is about -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ayush Suryawanshi",
+        "url": "%SITE_URL%/",
+        "jobTitle": "AI/ML Engineer",
+        "alumniOf": [
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "Maulana Azad National Institute of Technology (MANIT) Bhopal"
+          },
+          { "@type": "CollegeOrUniversity", "name": "Guru Ghasidas Vishwavidyalaya (GGV) Bilaspur" }
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/ayush-suryawanshi-45234a246",
+          "https://github.com/Ayush1860",
+          "https://builder.aws.com/community/@ayush1806",
+          "https://www.instagram.com/ayush._186"
+        ]
+      }
+    </script>
   </head>
   <body>
     <!-- Background: the ASCII crane canvas. Driven by src/background, outside React. -->

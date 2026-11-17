@@ -1,19 +1,32 @@
 import type { ComponentType } from 'react';
-import { Database, ScanEye } from 'lucide-react';
+import { Database, FileSearch, FlaskConical, Gauge, Layers } from 'lucide-react';
 import { FaAws } from 'react-icons/fa6';
 import {
   SiCplusplus,
   SiDocker,
   SiFastapi,
+  SiGit,
+  SiGithubactions,
   SiGooglecloud,
   SiJavascript,
   SiKubernetes,
+  SiLanggraph,
+  SiMeta,
+  SiMongodb,
   SiOpencv,
+  SiPandas,
+  SiPytest,
   SiPython,
   SiPytorch,
+  SiQdrant,
   SiReact,
+  SiScikitlearn,
+  SiSqlite,
   SiTensorflow,
+  SiTypescript,
+  SiUltralytics,
 } from 'react-icons/si';
+import { VscAzure } from 'react-icons/vsc';
 
 export type IconComponent = ComponentType<{ className?: string; 'aria-hidden'?: boolean }>;
 
@@ -32,41 +45,63 @@ export const skillsSection = {
   title: 'Toolkit',
 };
 
-// TODO: confirm the final skills list.
-// SQL and YOLO have no brand mark, so they use generic Lucide icons.
+// From the Technical Skills section of the résumé (public/resume.pdf).
+// Skills with no brand mark use generic Lucide icons: SQL, RAG, LLM evals, monitoring, ChromaDB.
+// FAISS is a Meta library, so it carries the Meta mark.
 export const skillGroups: SkillGroup[] = [
   {
     label: 'Languages',
     skills: [
       { name: 'Python', icon: SiPython },
-      { name: 'C++', icon: SiCplusplus },
-      { name: 'JavaScript', icon: SiJavascript },
       { name: 'SQL', icon: Database },
+      { name: 'TypeScript', icon: SiTypescript },
+      { name: 'JavaScript', icon: SiJavascript },
+      { name: 'C++', icon: SiCplusplus },
     ],
   },
   {
-    label: 'ML and CV',
+    label: 'AI / ML',
     skills: [
       { name: 'PyTorch', icon: SiPytorch },
       { name: 'TensorFlow', icon: SiTensorflow },
-      { name: 'YOLO', icon: ScanEye },
+      { name: 'scikit-learn', icon: SiScikitlearn },
+      { name: 'LangGraph', icon: SiLanggraph },
+      { name: 'RAG', icon: FileSearch },
+      { name: 'LLM evals', icon: FlaskConical },
+      { name: 'YOLOv11', icon: SiUltralytics },
       { name: 'OpenCV', icon: SiOpencv },
     ],
   },
   {
-    label: 'Web',
+    label: 'MLOps and reliability',
     skills: [
-      { name: 'React', icon: SiReact },
-      { name: 'FastAPI', icon: SiFastapi },
+      { name: 'GitHub Actions', icon: SiGithubactions },
+      { name: 'Docker', icon: SiDocker },
+      { name: 'Kubernetes', icon: SiKubernetes },
+      { name: 'pytest', icon: SiPytest },
+      { name: 'Monitoring', icon: Gauge },
+      { name: 'Git', icon: SiGit },
     ],
   },
   {
-    label: 'Cloud and DevOps',
+    label: 'Cloud and backend',
     skills: [
       { name: 'AWS', icon: FaAws },
+      { name: 'Azure', icon: VscAzure },
       { name: 'GCP', icon: SiGooglecloud },
-      { name: 'Docker', icon: SiDocker },
-      { name: 'Kubernetes', icon: SiKubernetes },
+      { name: 'FastAPI', icon: SiFastapi },
+      { name: 'React', icon: SiReact },
+    ],
+  },
+  {
+    label: 'Data',
+    skills: [
+      { name: 'Qdrant', icon: SiQdrant },
+      { name: 'ChromaDB', icon: Layers },
+      { name: 'FAISS', icon: SiMeta },
+      { name: 'SQLite', icon: SiSqlite },
+      { name: 'MongoDB', icon: SiMongodb },
+      { name: 'pandas', icon: SiPandas },
     ],
   },
 ];

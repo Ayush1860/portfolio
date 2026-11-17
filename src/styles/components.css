@@ -337,10 +337,18 @@
     }
   }
 
+  /* Phones: three to a row. Wider screens: a single row of fixed tiles per group. */
   .skill-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  @media (min-width: 768px) {
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
   .skill {
@@ -348,10 +356,16 @@
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    width: 104px;
-    padding: 12px 4px;
+    padding: 12px 2px;
+    text-align: center;
     font-size: 13px;
     color: var(--text-2);
+  }
+
+  @media (min-width: 768px) {
+    .skill {
+      width: 96px; /* eight to a row at full width */
+    }
   }
 
   .skill-icon {

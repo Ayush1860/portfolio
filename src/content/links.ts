@@ -35,8 +35,8 @@ export const links: ProfileLink[] = [
   {
     id: 'instagram',
     label: 'Instagram',
-    handle: null, // TODO: Instagram handle
-    url: null, // TODO: Instagram URL
+    handle: '@ayush._186',
+    url: 'https://www.instagram.com/ayush._186',
     icon: SiInstagram,
   },
   {
