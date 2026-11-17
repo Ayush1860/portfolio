@@ -31,7 +31,7 @@ export const posts: BlogPost[] = [
     excerpt:
       'A retrieval-augmented generation service that enforces role-based access, so no caller can retrieve or decrypt documents outside their policy, running on AWS Lambda for cents a month.',
     url: 'https://builder.aws.com/content/3L32dyZpm8iTILaa6i0OghNxfDM/securerag-zero-leak-rag-on-aws-lambda-for-dollar020month',
-    cover: null, // TODO: cover image (16:9 WebP in /public)
+    cover: { src: '/blog/securerag-cover.webp', width: 2400, height: 1350, alt: 'SecureRAG article cover' },
   },
   {
     title: "Your company's AI assistant can leak the layoff list. Here's why, and how to build RAG that can't",
@@ -39,6 +39,6 @@ export const posts: BlogPost[] = [
     excerpt:
       'Similarity search ignores permissions, so enterprise RAG can surface confidential data. A three-layer AWS design to stop it: filter before retrieval, keep permissions fresh, guard the output.',
     url: 'https://builder.aws.com/content/3LjluHhD2V8TjEIVkWbFtODVQZa/your-companys-ai-assistant-can-leak-the-layoff-list-heres-why-and-how-to-build-rag-that-cant',
-    cover: null, // TODO: cover image (16:9 WebP in /public)
+    cover: { src: '/blog/rag-leak-cover.webp', width: 1600, height: 900, alt: 'Article cover: an AI assistant leaking confidential data' },
   },
 ];
