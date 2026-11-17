@@ -2,10 +2,9 @@
 export const site = {
   name: 'Ayush Suryawanshi',
   label: 'M.Tech · MANIT Bhopal',
-  // TODO: final hero line — one sentence on what Ayush builds.
   heroLine:
-    'I build computer-vision and generative-AI systems, currently transformer-based 3D asset generation.',
-  resume: { label: 'Résumé', url: '/resume.pdf' }, // TODO: add public/resume.pdf
+    'I research AI/ML and build generative-AI systems, currently detecting hallucinations in retrieval-augmented generation.',
+  resume: { label: 'Résumé', url: '/resume.pdf' },
   nav: [
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
@@ -19,6 +18,6 @@ export const site = {
   scrollCue: 'Scroll',
   footer: {
     copyright: '© 2026 Ayush Suryawanshi',
-    note: 'Built with React and a lot of butterflies',
+    note: 'Built with React and a lot of cranes',
   },
 } as const;

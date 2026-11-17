@@ -24,22 +24,21 @@ export const blogsSection = {
 };
 
 // Metadata is kept by hand here: no scraping.
-// TODO: two real posts — Builder Center URL, title, date, two-line excerpt, cover image.
 export const posts: BlogPost[] = [
   {
-    title: 'First post title goes here',
-    date: null,
+    title: 'SecureRAG: Zero-Leak RAG on AWS Lambda for $0.20/month',
+    date: '2026-10-25',
     excerpt:
-      'A two-line summary of the post: what it covers, and what a reader will be able to do after reading it.',
-    url: null,
-    cover: null,
+      'A retrieval-augmented generation service that enforces role-based access, so no caller can retrieve or decrypt documents outside their policy, running on AWS Lambda for cents a month.',
+    url: 'https://builder.aws.com/content/3L32dyZpm8iTILaa6i0OghNxfDM/securerag-zero-leak-rag-on-aws-lambda-for-dollar020month',
+    cover: null, // TODO: cover image (16:9 WebP in /public)
   },
   {
-    title: 'Second post title goes here',
-    date: null,
+    title: "Your company's AI assistant can leak the layoff list. Here's why, and how to build RAG that can't",
+    date: '2026-11-06',
     excerpt:
-      'A two-line summary of the post: what it covers, and what a reader will be able to do after reading it.',
-    url: null,
-    cover: null,
+      'Similarity search ignores permissions, so enterprise RAG can surface confidential data. A three-layer AWS design to stop it: filter before retrieval, keep permissions fresh, guard the output.',
+    url: 'https://builder.aws.com/content/3LjluHhD2V8TjEIVkWbFtODVQZa/your-companys-ai-assistant-can-leak-the-layoff-list-heres-why-and-how-to-build-rag-that-cant',
+    cover: null, // TODO: cover image (16:9 WebP in /public)
   },
 ];

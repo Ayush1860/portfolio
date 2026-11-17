@@ -49,8 +49,8 @@ export const links: ProfileLink[] = [
   {
     id: 'email',
     label: 'Email',
-    handle: null, // TODO: contact email address
-    url: null, // TODO: 'mailto:…'
+    handle: 'ayushsuryawanshi9@gmail.com',
+    url: 'mailto:ayushsuryawanshi9@gmail.com',
     icon: Mail,
   },
 ];
